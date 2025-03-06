@@ -67,7 +67,7 @@ function convertRoutine2Box(routines: Routine[], weekDays: Date[]): CalendarBox[
 }
 
 // get current week all boxes
-export function getCurrentWeekBoxed(weekDays: Date[]): CalendarBox[] {
+export function getCurrentWeekBoxes(weekDays: Date[]): CalendarBox[] {
     const affairs: AffairInterface[] = loadAffairs();
     let plans: Plan[] = getPlanFromAffair(affairs);
     let routines: Routine[] = getRoutineFromAffair(affairs);

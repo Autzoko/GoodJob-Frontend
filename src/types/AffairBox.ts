@@ -1,7 +1,7 @@
 export class AffairBox {
     constructor(
-        id: string,
-        color: string
+        public id: string,
+        public color: string
     ) {}
 
     toJSON() {
