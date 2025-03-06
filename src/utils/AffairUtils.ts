@@ -3,6 +3,14 @@ import { CalendarBox } from "../types/CalendarBox";
 import { loadAffairs } from "../storage/AffairStorage";
 import { getDateString } from "./DateUtils";
 
+export function isSameDay(d1: Date, d2: Date): boolean {
+    return (
+        d1.getFullYear() === d2.getFullYear() &&
+        d1.getMonth() === d2.getMonth() &&
+        d1.getDate() === d2.getDate()
+    );
+}
+
 // get plans from affairs
 function getPlanFromAffair(affairs: AffairInterface[]): Plan[] {
     return affairs.filter(a => a.type === 'plan') as Plan[];
@@ -16,7 +24,7 @@ function getRoutineFromAffair(affairs: AffairInterface[]): Routine[] {
 function getCurrentWeekPlans(plans: Plan[], weekDays: Date[]): Plan[] {
     return plans.filter(plan =>
         weekDays.some(date =>
-            date.getTime() === plan.date.getTime()
+            isSameDay(date, plan.date)
         )
     );
 }
