@@ -24,6 +24,7 @@ export class CalendarCanvas {
         this.boxes = getCurrentWeekBoxes(weekDays);
         this.columns = weekDays.map(date => new CalendarColumn(date));
         this.id += uuidv4();
+        this.assignColumns();
     }
 
     getNextWeek(): boolean {

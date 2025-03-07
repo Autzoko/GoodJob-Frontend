@@ -4,9 +4,12 @@ import { loadAffairBoxes } from "../storage/AffairBoxStorage";
 
 export function getBoxColor(box: CalendarBox): string {
     const id = box.id;
+    console.log(id);
     const affairBoxes = loadAffairBoxes();
 
     const targetBox = affairBoxes.filter(a => a.id === id);
+
+    console.log(targetBox);
     
     if (!targetBox) {
         throw new Error(`Unknown calendar box id: ${id}`);

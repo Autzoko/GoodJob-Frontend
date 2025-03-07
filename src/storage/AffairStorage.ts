@@ -3,9 +3,8 @@ import { AffairInterface, Plan, Routine, Habit } from "../types/AffairTypes";
 
 const STORAGE_KEY = 'affairs';
 
-export function saveAffairs(affairs: AffairInterface[]) {
-    const serialized = affairs.map(a => a.toJSON());
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(serialized));
+export function saveAffairs(affair: AffairInterface) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(affair.toJSON()));
 }
 
 export function loadAffairs(): AffairInterface[] {
@@ -13,7 +12,13 @@ export function loadAffairs(): AffairInterface[] {
     if (!jsonData) return [];
 
     const parsedData = JSON.parse(jsonData);
-    return parsedData.map(parseAffair);
+    if (Array.isArray(parsedData)) {
+        return parsedData.map(parseAffair);
+    } else if (parsedData && typeof parsedData === 'object') {
+        return [parseAffair(parsedData)];
+    } else {
+        return [];
+    }
 }
 
 function parseAffair(json: any): AffairInterface {

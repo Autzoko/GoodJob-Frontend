@@ -1,20 +1,20 @@
-import React, { useState, useEffect } from "react";
-import { CalendarCanvas, CalendarColumn } from "../../types/CalendarTypes";
-import { loadAffairs, saveAffairs } from "../../storage/AffairStorage";
-import { loadAffairBoxes, saveAffairBoxes } from "../../storage/AffairBoxStorage";
+import React, { useState } from "react";
+import { CalendarCanvas } from "../../types/CalendarTypes";
 import { getCurrentWeekDates } from "../../utils/DateUtils";
 import DisplayColumn from "./CalendarDisplayColumn";
+import AddDialog from "../Dialog/AddAffairDialog/AddDialog";
 
 const DisplayCanvas: React.FC = () => {
 
     const [canvas, setCanvas] = useState<CalendarCanvas>(new CalendarCanvas(getCurrentWeekDates(new Date())));
     const [version, setVersion] = useState<number>(0);
+    const [addDialogOpen, setAddDialogOpen] = useState<boolean>(false);
+
 
     const handleNextWeek = () => {
         if (canvas.getNextWeek()) {
             setVersion(version + 1)
             setCanvas(canvas.onUpdate(version + 1));
-
         } else {
             console.log("malfunction: getNextWeek");
         }
@@ -47,6 +47,24 @@ const DisplayCanvas: React.FC = () => {
                     );
                 })}
             </div>
+
+            <button onClick={() => setAddDialogOpen(true)}
+                style={{
+                    position: 'fixed',
+                    bottom: '15px',
+                    right: '15px',
+                    padding: '12px 16px',
+                    borderRadius: '50%',
+                    backgroundColor: '#1976D2',
+                    color: 'white',
+                    border: 'none',
+                    fontSize: '24px',
+                    cursor: 'pointer'
+                }}>
+                    +
+            </button>
+
+            <AddDialog open={addDialogOpen} onClose={() => setAddDialogOpen(false)} />
         </div>
     );
 };
