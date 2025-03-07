@@ -28,6 +28,12 @@ const DisplayCanvas: React.FC = () => {
         }
     }
 
+    const handleAddDialogClose = () => {
+        setCanvas(canvas.onUpdate(version));
+        setVersion(version);
+        setAddDialogOpen(false);
+    }
+
     return (
         <div style={{ padding: '16px' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
@@ -64,7 +70,7 @@ const DisplayCanvas: React.FC = () => {
                     +
             </button>
 
-            <AddDialog open={addDialogOpen} onClose={() => setAddDialogOpen(false)} />
+            <AddDialog open={addDialogOpen} onClose={() => handleAddDialogClose()} />
         </div>
     );
 };

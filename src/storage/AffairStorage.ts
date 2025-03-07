@@ -4,7 +4,23 @@ import { AffairInterface, Plan, Routine, Habit } from "../types/AffairTypes";
 const STORAGE_KEY = 'affairs';
 
 export function saveAffairs(affair: AffairInterface) {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(affair.toJSON()));
+    const stored = localStorage.getItem(STORAGE_KEY);
+    console.log("len: ", stored?.length);
+    let affairs: AffairInterface[] = [];
+    if (stored) {
+        try {
+            affairs = JSON.parse(stored);
+            console.log(affairs);
+            if (!Array.isArray(affairs)) {
+                affairs = [];
+            }
+        } catch (error) {
+            console.error('Parse affairs error: ', error);
+            affairs = [];
+        }
+    }
+    affairs.push(affair.toJSON());
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(affairs));
 }
 
 export function loadAffairs(): AffairInterface[] {

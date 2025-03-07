@@ -3,7 +3,21 @@ import { AffairBox, parseAffairBox } from "../types/AffairBox";
 const STORAGE_KEY = "boxaff";
 
 export function saveAffairBox(box: AffairBox) {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(box));
+    const stored = localStorage.getItem(STORAGE_KEY);
+    let boxes: AffairBox[] = [];
+    if (stored) {
+        try {
+            boxes = JSON.parse(stored);
+            if (!Array.isArray(boxes)) {
+                boxes = [];
+            }
+        } catch (error) {
+            console.error("Parse affair box error: ", error);
+            boxes = [];
+        }
+    }
+    boxes.push(box);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(boxes));
 };
 
 export function loadAffairBoxes(): AffairBox[] {

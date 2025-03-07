@@ -91,6 +91,8 @@ export class CalendarCanvas {
 
     onUpdate(week: number): CalendarCanvas {
         this.id = `${this.id.split('-')[0]}-${this.id.split('-')[1]}-${week}`;
+        this.boxes = getCurrentWeekBoxes(this.weekDays);
+        this.assignColumns();
         return this;
     }
 };
