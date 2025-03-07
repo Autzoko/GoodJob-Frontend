@@ -88,8 +88,8 @@ export class CalendarCanvas {
         }
     }
 
-    onUpdate(version: string): CalendarCanvas {
-        this.id = `${this.id.split('-')[0]}-${this.id.split('-')[1]}-${version}`;
+    onUpdate(week: number): CalendarCanvas {
+        this.id = `${this.id.split('-')[0]}-${this.id.split('-')[1]}-${week}`;
         return this;
     }
 };

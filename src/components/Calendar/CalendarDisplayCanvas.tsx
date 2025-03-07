@@ -4,18 +4,16 @@ import { loadAffairs, saveAffairs } from "../../storage/AffairStorage";
 import { loadAffairBoxes, saveAffairBoxes } from "../../storage/AffairBoxStorage";
 import { getCurrentWeekDates } from "../../utils/DateUtils";
 import DisplayColumn from "./CalendarDisplayColumn";
-import { v4 as uuidv4 } from "uuid";
 
 const DisplayCanvas: React.FC = () => {
 
     const [canvas, setCanvas] = useState<CalendarCanvas>(new CalendarCanvas(getCurrentWeekDates(new Date())));
-    const [version, setVersion] = useState<string>("initial-version");
+    const [version, setVersion] = useState<number>(0);
 
     const handleNextWeek = () => {
         if (canvas.getNextWeek()) {
-            const new_version = uuidv4();
-            setVersion(new_version);
-            setCanvas(canvas.onUpdate(new_version));
+            setVersion(version + 1)
+            setCanvas(canvas.onUpdate(version + 1));
 
         } else {
             console.log("malfunction: getNextWeek");
@@ -23,9 +21,8 @@ const DisplayCanvas: React.FC = () => {
     }
     const handlePrevWeek = () => {
         if (canvas.getPrevWeek()) {
-            const new_version = uuidv4();
-            setVersion(new_version);
-            setCanvas(canvas.onUpdate(new_version));
+            setVersion(version - 1);
+            setCanvas(canvas.onUpdate(version - 1));
         } else {
             console.log("malfunction: getPrevWeek");
         }
