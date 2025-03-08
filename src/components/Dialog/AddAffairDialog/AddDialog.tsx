@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Tabs, Tab } from "@mui/material";
 import { saveAffairs } from "../../../storage/AffairStorage";
-import { AffairInterface, Plan } from "../../../types/AffairTypes";
+import { AffairInterface, Plan, Routine } from "../../../types/AffairTypes";
 import AddPlanForm from "./AddPlanDialog";
 import { AffairBox } from "../../../types/AffairBox";
 import { saveAffairBox } from "../../../storage/AffairBoxStorage";
+import AddRoutineForm from "./AddRoutineDialog";
 
 interface Props {
     open: boolean;
@@ -16,6 +17,7 @@ const AddDialog: React.FC<Props> = ({ open, onClose})=> {
     const [affairBox, setAffairBox] = useState<AffairBox | null>(null);
 
     const [newPlan, setNewPlan] = useState<Plan | null>(null);
+    const [newRoutine, setNewRoutine] = useState<Routine | null>(null);
 
     const handleSave = () => {
         if (activeTab === 0) {
@@ -24,15 +26,18 @@ const AddDialog: React.FC<Props> = ({ open, onClose})=> {
                 return;
             }
             saveAffairs(newPlan);
-
-            if (!affairBox) {
-                alert("Color cannot be empty");
+        } else if (activeTab === 1) {
+            if (!newRoutine) {
+                alert("Routine cannot be empty");
                 return;
             }
-            saveAffairBox(affairBox);
-        } else if (activeTab === 1) {
-            console.log("Tab for new routine");
+            saveAffairs(newRoutine);
         }
+        if (!affairBox) {
+            alert("Color cannot be empty");
+            return;
+        }
+        saveAffairBox(affairBox);
         onClose();
     };
 
@@ -47,6 +52,7 @@ const AddDialog: React.FC<Props> = ({ open, onClose})=> {
 
             <DialogContent>
                 {activeTab === 0 && <AddPlanForm onSave={setNewPlan} onSaveAffairBox={setAffairBox} />}
+                {activeTab === 1 && <AddRoutineForm onSave={setNewRoutine} onSaveAffairBox={setAffairBox} />}
             </DialogContent>
 
             <DialogActions>

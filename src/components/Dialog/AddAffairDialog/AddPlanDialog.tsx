@@ -44,7 +44,6 @@ const AddPlanForm: React.FC<Props> = ({ onSave, onSaveAffairBox }) => {
             id,
             color
         );
-        console.log("1:", newPlan.id, " 2: ", newAffairBox.id);
         onSave(newPlan);
         onSaveAffairBox(newAffairBox);
     }, [title, content, date, startTime, endTime, color, onSave, onSaveAffairBox]);

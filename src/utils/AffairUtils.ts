@@ -61,7 +61,7 @@ function convertRoutine2Box(routines: Routine[], weekDays: Date[]): CalendarBox[
             const day = wdate.getDay();
             if (routine.weekDays.includes(day)) {
                 box.push({
-                    id: routine.id + day.toString(),
+                    id: routine.id,
                     title: routine.title,
                     content: routine.content,
                     date: wdate,
