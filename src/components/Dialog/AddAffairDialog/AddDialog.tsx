@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Tabs, Tab } from "@mui/material";
 import { saveAffairs } from "../../../storage/AffairStorage";
-import { AffairInterface, Plan, Routine } from "../../../types/AffairTypes";
+import { Plan, Routine } from "../../../types/AffairTypes";
 import AddPlanForm from "./AddPlanDialog";
 import { AffairBox } from "../../../types/AffairBox";
 import { saveAffairBox } from "../../../storage/AffairBoxStorage";

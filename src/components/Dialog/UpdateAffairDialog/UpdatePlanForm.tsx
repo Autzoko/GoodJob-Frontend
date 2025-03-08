@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { TextField, MenuItem } from "@mui/material";
 import DatePicker from "react-datepicker";
 import TimePicker from "react-time-picker";
@@ -11,20 +11,23 @@ import { AffairBox } from "../../../types/AffairBox";
 import { v4 as uuidv4 } from "uuid";
 
 
-
 interface Props {
-    onSave: (plan: Plan) => void;
-    onSaveAffairBox: (box: AffairBox) => void;
+    plan: Plan
+    affairBox: AffairBox;
+    onUpdate: (updatedPlan: Plan) => void;
+    onDelete: (planId: string) => void;
+    onUpdateAffairBox: (updatedBox: AffairBox) => void;
+    onDeleteAffairBox: (boxId: string) => void;
 }
 
-const AddPlanForm: React.FC<Props> = ({ onSave, onSaveAffairBox }) => {
-    const [title, setTitle] = useState('');
-    const [content, setContent] = useState('');
-    const [date, setDate] = useState<Date | null>(new Date());
-    const [startTime, setStartTime] = useState<string>('08:00');
-    const [endTime, setEndTime] = useState<string>('09:00');
+const UpdatePlanForm: React.FC<Props> = ({ plan, affairBox, onUpdate, onDelete, onUpdateAffairBox, onDeleteAffairBox }) => {
+    const [title, setTitle] = useState(plan.title);
+    const [content, setContent] = useState(plan.content);
+    const [date, setDate] = useState<Date | null>(plan.date);
+    const [startTime, setStartTime] = useState<string>(plan.startTime);
+    const [endTime, setEndTime] = useState<string>(plan.endTime);
 
-    const [color, setColor] = useState('#FFDDC1');
+    const [color, setColor] = useState(affairBox.color);
 
     const colorOptions = [
         '#FFDDC1', '#FFABAB', '#FFC3A0', '#D5AAFF', 
@@ -32,28 +35,36 @@ const AddPlanForm: React.FC<Props> = ({ onSave, onSaveAffairBox }) => {
     ];
 
     useEffect(() => {
-        const id = `cld-plan-${uuidv4()}`;
-        const newPlan = new Plan(
-            id,
+        setTitle(plan.title);
+        setContent(plan.content);
+        setDate(plan.date);
+        setStartTime(plan.startTime);
+        setEndTime(plan.endTime);
+        setColor(affairBox.color);
+    }, [plan]);
+
+    const handleUpdate = () => {
+        const updatedPlan = new Plan(
+            plan.id,
             title,
             content,
             date ? date : new Date(),
             startTime,
             endTime
         );
-        const newAffairBox = new AffairBox(
-            id,
+        const updatedBox = new AffairBox(
+            affairBox.id,
             color
         );
-        onSave(newPlan);
-        onSaveAffairBox(newAffairBox);
-    }, [title, content, date, startTime, endTime, color, onSave, onSaveAffairBox]);
+        onUpdate(updatedPlan);
+        onUpdateAffairBox(updatedBox);
+    };
 
     return (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
             <TextField label='Title' value={title} onChange={e => setTitle(e.target.value)} />
 
-            <div style={{ display: 'flex', flexDirection: 'column', width: "100%"}}>
+            <div style={{ display: 'flex', flexDirection: 'column', width: "100%" }}>
                 <label style={{ marginBottom: '4px', fontWeight: 'bold' }}>Select Date</label>
                 <DatePicker selected={date} onChange={e => setDate(e)} required dateFormat='Pp' />
             </div>
@@ -63,7 +74,7 @@ const AddPlanForm: React.FC<Props> = ({ onSave, onSaveAffairBox }) => {
                     <TimePicker value={startTime} onChange={e => setStartTime(e ? e : '08:00')} required />
                 </div>
                 <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-                    <label style={{ marginBottom: '4px', fontWeight: 'bold'}} >End Time</label>
+                    <label style={{ marginBottom: '4px', fontWeight: 'bold' }} >End Time</label>
                     <TimePicker value={endTime} onChange={e => setEndTime(e ? e : '09:00')} required />
                 </div>
             </div>
@@ -78,7 +89,5 @@ const AddPlanForm: React.FC<Props> = ({ onSave, onSaveAffairBox }) => {
                 ))}
             </TextField>
         </div>
-    );
-};
-
-export default AddPlanForm;
+    )
+}

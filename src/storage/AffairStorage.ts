@@ -5,7 +5,6 @@ const STORAGE_KEY = 'affairs';
 
 export function saveAffairs(affair: AffairInterface) {
     const stored = localStorage.getItem(STORAGE_KEY);
-    console.log("len: ", stored?.length);
     let affairs: AffairInterface[] = [];
     if (stored) {
         try {
@@ -35,6 +34,29 @@ export function loadAffairs(): AffairInterface[] {
     } else {
         return [];
     }
+}
+
+export function deleteAffair(id: string): boolean {
+    const data = localStorage.getItem(STORAGE_KEY);
+
+    if (!data) return false;
+
+    let affairs: any[];
+
+    try {
+        affairs = JSON.parse(data);
+    } catch (error) {
+        console.log("Error occurs when delete: function deleteAffair");
+        return false;
+    }
+
+    if (!Array.isArray(affairs)) {
+        affairs = [affairs];
+    }
+
+    const updatedAffairs = affairs.filter(plan => plan.id !== id);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedAffairs));
+    return true;
 }
 
 function parseAffair(json: any): AffairInterface {

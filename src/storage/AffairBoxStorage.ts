@@ -34,4 +34,27 @@ export function loadAffairBoxes(): AffairBox[] {
         return [];
     }
     return parsedArray.map(parseAffairBox);
-}
+};
+
+export function deleteAffairBox(id: string): boolean {
+    const data = localStorage.getItem(STORAGE_KEY);
+    
+    if (!data) return false;
+    
+    let affairsBoxes: any[];
+    
+    try {
+        affairsBoxes = JSON.parse(data);
+    } catch (error) {
+        console.log("Error occurs when delete: function deleteAffair");
+        return false;
+    }
+    
+    if (!Array.isArray(affairsBoxes)) {
+        affairsBoxes = [affairsBoxes];
+    }
+    
+    const updatedAffairs = affairsBoxes.filter(plan => plan.id !== id);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedAffairs));
+    return true;
+};
