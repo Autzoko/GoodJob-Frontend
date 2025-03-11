@@ -21,3 +21,18 @@ export function getBoxColor(box: CalendarBox): string {
 
     return targetBox[0].color;
 }
+
+export function getAffairBoxById(id: string):AffairBox {
+    const boxes: AffairBox[] = loadAffairBoxes();
+    const targetAffairBox = boxes.filter(b => b.id === id);
+
+    if (!targetAffairBox) {
+        throw new Error("Cannot find target affair box");
+    }
+
+    if (targetAffairBox.length > 1) {
+        throw new Error("Affair box id is not unique");
+    }
+
+    return targetAffairBox[0];
+}

@@ -15,12 +15,10 @@ interface Props {
     plan: Plan
     affairBox: AffairBox;
     onUpdate: (updatedPlan: Plan) => void;
-    onDelete: (planId: string) => void;
     onUpdateAffairBox: (updatedBox: AffairBox) => void;
-    onDeleteAffairBox: (boxId: string) => void;
 }
 
-const UpdatePlanForm: React.FC<Props> = ({ plan, affairBox, onUpdate, onDelete, onUpdateAffairBox, onDeleteAffairBox }) => {
+const UpdatePlanForm: React.FC<Props> = ({ plan, affairBox, onUpdate, onUpdateAffairBox }) => {
     const [title, setTitle] = useState(plan.title);
     const [content, setContent] = useState(plan.content);
     const [date, setDate] = useState<Date | null>(plan.date);
@@ -89,5 +87,7 @@ const UpdatePlanForm: React.FC<Props> = ({ plan, affairBox, onUpdate, onDelete, 
                 ))}
             </TextField>
         </div>
-    )
-}
+    );
+};
+
+export default UpdatePlanForm;

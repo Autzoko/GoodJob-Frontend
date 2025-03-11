@@ -88,3 +88,24 @@ export function getCurrentWeekBoxes(weekDays: Date[]): CalendarBox[] {
 
     return [...planBoxes, ...routineBoxes];
 };
+
+export function getBoxInfoById(affairId: string): AffairInterface {
+    const affairs: AffairInterface[] = loadAffairs();
+    const targetAffair = affairs.filter(a => a.id === affairId);
+
+    if (!targetAffair) {
+        throw new Error("Cannot find target affair");
+    }
+
+    if (targetAffair.length > 1) {
+        throw new Error("Affair id is not unique");
+    }
+
+    if (targetAffair[0].type === 'plan') {
+        return getPlanFromAffair(targetAffair)[0];
+    } else if (targetAffair[0].type === 'routine') {
+        return getRoutineFromAffair(targetAffair)[0];
+    } else {
+        throw new Error("Error in fetching affair");
+    }
+};
